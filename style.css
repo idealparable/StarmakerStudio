@@ -123,3 +123,11 @@ button:hover {
     flex-wrap: wrap;
 
 }
+
+.studio-page {
+
+    width: 100%;
+
+    max-width: 900px;
+
+}
