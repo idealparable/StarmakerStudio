@@ -1,6 +1,5 @@
 // Starmaker Studio core
 
-
 const workspace = document.getElementById("workspace");
 
 
