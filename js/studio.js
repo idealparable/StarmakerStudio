@@ -1,7 +1,5 @@
 // Starmaker Studio core
 
-// alert("NEW STUDIO FILE LOADED");
-
 const PROJECT_API = "https://proud-pine-7dab.idealparable.workers.dev/";
 
 const workspace = document.getElementById("workspace");
@@ -114,22 +112,110 @@ function showWelcome() {
 
 function createNewProject() {
 
+    const page = createPage(
+        "Create New Project",
+        "Set up your project details."
+    );
 
-    const project = {
 
-        name: "Untitled Project",
+    const nameLabel = document.createElement("p");
+    nameLabel.textContent = "Project Name:";
 
-        type: null,
+    page.appendChild(nameLabel);
 
-        blocks: []
+
+    const nameInput = document.createElement("input");
+
+    nameInput.value = "Untitled Project";
+
+    page.appendChild(nameInput);
+
+
+
+    const typeLabel = document.createElement("p");
+
+    typeLabel.textContent = "Project Type:";
+
+    page.appendChild(typeLabel);
+
+
+
+    const typeInput = document.createElement("input");
+
+    typeInput.value = "game";
+
+    page.appendChild(typeInput);
+
+
+
+    const createButton = document.createElement("button");
+
+    createButton.textContent = "Create";
+
+    createButton.onclick = async function() {
+
+        await saveNewProject(
+            nameInput.value,
+            typeInput.value
+        );
 
     };
 
 
-    studioData.currentProject = project;
+    page.appendChild(createButton);
 
 
-    showProjectPage();
+
+    const cancelButton = document.createElement("button");
+
+    cancelButton.textContent = "Cancel";
+
+    cancelButton.onclick = showWelcome;
+
+    page.appendChild(cancelButton);
+
+
+    showPage(page);
+
+}
+
+async function saveNewProject(name, type) {
+
+
+    const project = {
+
+        name: name,
+
+        type: type,
+
+        data: JSON.stringify({
+            blocks: []
+        })
+
+    };
+
+
+    const response = await fetch(
+        PROJECT_API,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(project)
+        }
+    );
+
+
+    const result = await response.json();
+
+
+    console.log(result);
+
+
+    showWelcome();
 
 }
 
