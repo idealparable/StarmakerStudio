@@ -1,5 +1,8 @@
 // Starmaker Studio core
 
+
+const PROJECT_API = "https://proud-pine-7dab.idealparable.workers.dev/";
+
 const workspace = document.getElementById("workspace");
 
 
@@ -128,16 +131,91 @@ function createNewProject() {
 
 // Project page
 
-function showProjectPage() {
-
+async function showProjects() {
 
     const page = createPage(
-        studioData.currentProject.name,
-        "Current project workspace."
+        "Projects",
+        "Loading projects..."
     );
 
-
     showPage(page);
+
+
+    try {
+
+        const response = await fetch(PROJECT_API);
+
+        const data = await response.json();
+
+
+        page.innerHTML = "";
+
+
+        const heading = document.createElement("h1");
+        heading.textContent = "Projects";
+
+        page.appendChild(heading);
+
+
+        if (data.results.length === 0) {
+
+            const empty = document.createElement("p");
+
+            empty.textContent = "No projects found.";
+
+            page.appendChild(empty);
+
+            return;
+
+        }
+
+
+        data.results.forEach(project => {
+
+
+            const button = document.createElement("button");
+
+            button.textContent = project.name;
+
+
+            button.onclick = function() {
+
+                studioData.currentProject = project;
+
+                showProjectPage();
+
+            };
+
+
+            page.appendChild(button);
+
+
+        });
+
+
+    } catch (error) {
+
+
+        page.innerHTML = "";
+
+        const heading = document.createElement("h1");
+
+        heading.textContent = "Projects";
+
+        page.appendChild(heading);
+
+
+        const message = document.createElement("p");
+
+        message.textContent =
+            "Could not connect to Starmaker cloud storage.";
+
+        page.appendChild(message);
+
+
+        console.error(error);
+
+    }
 
 }
 
