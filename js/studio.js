@@ -247,6 +247,12 @@ async function loadProjectsInto(container) {
         data.results.forEach(project => {
 
 
+            const card = document.createElement("div");
+
+            card.className = "project-card";
+
+
+
             const button = document.createElement("button");
 
             button.textContent = project.name;
@@ -261,15 +267,60 @@ async function loadProjectsInto(container) {
             };
 
 
+            card.appendChild(button);
+
+
+
             const info = document.createElement("p");
 
             info.textContent =
                 `${project.type || "Unknown type"} | Modified: ${project.modified || "Unknown"}`;
 
 
-            container.appendChild(button);
+            card.appendChild(info);
 
-            container.appendChild(info);
+
+
+            const controls = document.createElement("div");
+
+            controls.className = "project-controls";
+
+
+
+            const editButton = document.createElement("button");
+
+            editButton.textContent = "Edit";
+
+            editButton.onclick = function() {
+
+                editProject(project);
+
+            };
+
+
+            controls.appendChild(editButton);
+
+
+
+            const deleteButton = document.createElement("button");
+
+            deleteButton.textContent = "Delete";
+
+            deleteButton.onclick = function() {
+
+                deleteProject(project);
+
+            };
+
+
+            controls.appendChild(deleteButton);
+
+
+
+            card.appendChild(controls);
+
+
+            container.appendChild(card);
 
 
         });
@@ -316,7 +367,113 @@ async function showProjects() {
 
 }
 
+function editProject(project) {
 
+
+    const page = createPage(
+        "Edit Project"
+    );
+
+
+    const nameInput = document.createElement("input");
+
+    nameInput.value = project.name;
+
+    page.appendChild(nameInput);
+
+
+
+    const typeInput = document.createElement("input");
+
+    typeInput.value = project.type;
+
+    page.appendChild(typeInput);
+
+
+
+    const saveButton = document.createElement("button");
+
+    saveButton.textContent = "Save";
+
+
+    saveButton.onclick = async function() {
+
+
+        await fetch(
+            PROJECT_API,
+            {
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+                    id:project.id,
+                    name:nameInput.value,
+                    type:typeInput.value
+                })
+            }
+        );
+
+
+        showWelcome();
+
+    };
+
+
+    page.appendChild(saveButton);
+
+
+
+    const cancelButton = document.createElement("button");
+
+    cancelButton.textContent="Cancel";
+
+    cancelButton.onclick=showWelcome;
+
+    page.appendChild(cancelButton);
+
+
+
+    showPage(page);
+
+}
+
+async function deleteProject(project) {
+
+
+    const confirmed = confirm(
+        "Delete " + project.name + "?"
+    );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    await fetch(
+        PROJECT_API,
+        {
+            method:"DELETE",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                id:project.id
+            })
+        }
+    );
+
+
+    showWelcome();
+
+}
 
 
 // Menu system
