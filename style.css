@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111827;
+    color: white;
+}
+
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 20px;
+
+    background: #1f2937;
+}
+
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+button {
+
+    padding: 8px 14px;
+    margin-left: 5px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    background: #374151;
+    color: white;
+}
+
+
+button:hover {
+
+    background: #4b5563;
+
+}
+
+
+.workspace {
+
+    height: calc(100vh - 60px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.welcome {
+
+    text-align: center;
+
+}
+
+
+#new-project {
+
+    margin-top: 20px;
+
+    font-size: 18px;
+
+    padding: 12px 24px;
+
+}
+
+#studio-icon {
+
+    width: 20px;
+
+    height: 20px;
+
+}
