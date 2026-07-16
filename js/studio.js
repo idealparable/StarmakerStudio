@@ -1,5 +1,6 @@
 // Starmaker Studio core
 
+// alert("NEW STUDIO FILE LOADED");
 
 const PROJECT_API = "https://proud-pine-7dab.idealparable.workers.dev/";
 
@@ -219,22 +220,6 @@ async function showProjects() {
 
 }
 
-
-
-// Project list
-
-function showProjects() {
-
-
-    const page = createPage(
-        "Projects",
-        "Recent projects will appear here."
-    );
-
-
-    showPage(page);
-
-}
 
 
 
