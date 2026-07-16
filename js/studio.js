@@ -79,24 +79,29 @@ function showWelcome() {
 
     newButton.textContent = "Create New Project";
 
-
     newButton.onclick = createNewProject;
-
 
     page.appendChild(newButton);
 
 
 
-    const openButton = document.createElement("button");
+    const projectTitle = document.createElement("h2");
 
-    openButton.textContent = "Open Existing Project";
+    projectTitle.textContent = "Existing Projects";
+
+    page.appendChild(projectTitle);
 
 
-    openButton.onclick = showProjects;
+
+    const projectList = document.createElement("div");
+
+    projectList.textContent = "Loading projects...";
+
+    page.appendChild(projectList);
 
 
-    page.appendChild(openButton);
 
+    loadProjectsInto(projectList);
 
 
     showPage(page);
@@ -132,15 +137,7 @@ function createNewProject() {
 
 // Project page
 
-async function showProjects() {
-
-    const page = createPage(
-        "Projects",
-        "Loading projects..."
-    );
-
-    showPage(page);
-
+async function loadProjectsInto(container) {
 
     try {
 
@@ -149,22 +146,12 @@ async function showProjects() {
         const data = await response.json();
 
 
-        page.innerHTML = "";
-
-
-        const heading = document.createElement("h1");
-        heading.textContent = "Projects";
-
-        page.appendChild(heading);
+        container.innerHTML = "";
 
 
         if (data.results.length === 0) {
 
-            const empty = document.createElement("p");
-
-            empty.textContent = "No projects found.";
-
-            page.appendChild(empty);
+            container.textContent = "No projects found.";
 
             return;
 
@@ -188,35 +175,58 @@ async function showProjects() {
             };
 
 
-            page.appendChild(button);
+            const info = document.createElement("p");
+
+            info.textContent =
+                `${project.type || "Unknown type"} | Modified: ${project.modified || "Unknown"}`;
+
+
+            container.appendChild(button);
+
+            container.appendChild(info);
 
 
         });
 
 
-    } catch (error) {
+    } catch(error) {
 
-
-        page.innerHTML = "";
-
-        const heading = document.createElement("h1");
-
-        heading.textContent = "Projects";
-
-        page.appendChild(heading);
-
-
-        const message = document.createElement("p");
-
-        message.textContent =
+        container.textContent =
             "Could not connect to Starmaker cloud storage.";
-
-        page.appendChild(message);
-
 
         console.error(error);
 
     }
+
+}
+
+async function showProjects() {
+
+    const page = createPage(
+        "Projects"
+    );
+
+
+    const backButton = document.createElement("button");
+
+    backButton.textContent = "← Back";
+
+    backButton.onclick = showWelcome;
+
+    page.appendChild(backButton);
+
+
+    const list = document.createElement("div");
+
+    list.textContent = "Loading projects...";
+
+    page.appendChild(list);
+
+
+    showPage(page);
+
+
+    loadProjectsInto(list);
 
 }
 
