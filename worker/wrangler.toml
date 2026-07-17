@@ -1,0 +1,8 @@
+name = "proud-pine-7dab"
+main = "dbworker.js"
+compatibility_date = "2026-07-16"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "StarmakerStudio"
+database_id = "5d514b3d-9533-4c0e-b034-d18c913c8a1f"
