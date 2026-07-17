@@ -61,16 +61,155 @@ function createPage(title, text = "") {
 
 }
 
-
-
-// Welcome screen
-
-function showWelcome() {
+function showStudio() {
 
     const page = createPage(
-        "Welcome to Starmaker Studio",
+        "Studio",
+        "Studio settings and application controls."
+    );
+
+
+    const buttons = [
+        "Projects",
+        "File",
+        "Edit",
+        "Help",
+        "Settings"
+    ];
+
+
+    buttons.forEach(name => {
+
+        const button = document.createElement("button");
+
+        button.textContent = name;
+
+        button.style.display = "block";
+
+        button.style.margin = "8px 0";
+
+
+        button.onclick = function() {
+
+            switch(name) {
+
+                case "Projects":
+                    showProjects();
+                    break;
+
+                case "File":
+                    showFileMenu();
+                    break;
+
+                case "Edit":
+                    showEditMenu();
+                    break;
+
+                case "Help":
+                    showHelp();
+                    break;
+
+                case "Settings":
+                    showSettings();
+                    break;
+
+            }
+
+        };
+
+
+        page.appendChild(button);
+
+    });
+
+
+    showPage(page);
+
+}
+
+function showEditMenu() {
+
+    showPage(
+        createPage(
+            "Edit",
+            "Undo, redo, copy, paste, and editing tools will appear here."
+        )
+    );
+
+}
+
+
+function showSettings() {
+
+    showPage(
+        createPage(
+            "Settings",
+            "Studio and user settings will appear here."
+        )
+    );
+
+}
+
+
+function showBlocksMenu() {
+
+    showPage(
+        createPage(
+            "Blocks",
+            "The block library will appear here."
+        )
+    );
+
+}
+
+
+function showMediaMenu() {
+
+    showPage(
+        createPage(
+            "Media",
+            "Images, audio, fonts, and other resources will appear here."
+        )
+    );
+
+}
+
+
+function showBuildMenu() {
+
+    showPage(
+        createPage(
+            "Build",
+            "Export and build tools will appear here."
+        )
+    );
+
+}
+
+// Projects page
+
+function showProjects() {
+
+    const page = createPage(
+        "Projects",
         "Create worlds, games, and more with intuitive visual coding blocks."
     );
+
+
+    const breadcrumb = document.createElement("p");
+
+    breadcrumb.textContent = "Studio > Projects";
+
+    breadcrumb.style.fontSize = "0.9em";
+
+    breadcrumb.style.opacity = "0.7";
+
+    breadcrumb.onclick = showStudio;
+
+    breadcrumb.style.cursor = "pointer";
+
+    page.appendChild(breadcrumb);
+
 
 
     const newButton = document.createElement("button");
@@ -105,7 +244,6 @@ function showWelcome() {
     showPage(page);
 
 }
-
 
 
 // Create project
@@ -170,7 +308,7 @@ function createNewProject() {
 
     cancelButton.textContent = "Cancel";
 
-    cancelButton.onclick = showWelcome;
+    cancelButton.onclick = showProjects();
 
     page.appendChild(cancelButton);
 
@@ -215,7 +353,7 @@ async function saveNewProject(name, type) {
     console.log(result);
 
 
-    showWelcome();
+    showProjects();
 
 }
 
@@ -337,35 +475,6 @@ async function loadProjectsInto(container) {
 
 }
 
-async function showProjects() {
-
-    const page = createPage(
-        "Projects"
-    );
-
-
-    const backButton = document.createElement("button");
-
-    backButton.textContent = "← Back";
-
-    backButton.onclick = showWelcome;
-
-    page.appendChild(backButton);
-
-
-    const list = document.createElement("div");
-
-    list.textContent = "Loading projects...";
-
-    page.appendChild(list);
-
-
-    showPage(page);
-
-
-    loadProjectsInto(list);
-
-}
 
 function editProject(project) {
 
@@ -395,6 +504,8 @@ function editProject(project) {
 
     saveButton.textContent = "Save";
 
+    saveButton.className = "studio-button";
+
 
     saveButton.onclick = async function() {
 
@@ -417,7 +528,7 @@ function editProject(project) {
         );
 
 
-        showWelcome();
+        showProjects();
 
     };
 
@@ -430,7 +541,9 @@ function editProject(project) {
 
     cancelButton.textContent="Cancel";
 
-    cancelButton.onclick=showWelcome;
+    cancelButton.className = "studio-button";
+
+    cancelButton.onclick=showProjects;
 
     page.appendChild(cancelButton);
 
@@ -471,7 +584,7 @@ async function deleteProject(project) {
     );
 
 
-    showWelcome();
+    showProjects();
 
 }
 
@@ -495,10 +608,9 @@ function setupMenus() {
 
             switch(name) {
 
+                case "Project":
 
-                case "File":
-
-                    showFileMenu();
+                    showProjects();
 
                     break;
 
@@ -510,33 +622,26 @@ function setupMenus() {
                     break;
 
 
-                case "Project":
+                case "Media":
 
-                    if (studioData.currentProject) {
-
-                        showProjectPage();
-
-                    } else {
-
-                        showWelcome();
-
-                    }
+                    showMediaMenu();
 
                     break;
 
 
-                case "Help":
+                case "Build":
 
-                    showHelp();
+                    showBuildMenu();
 
                     break;
 
 
-                default:
+                case "Studio":
 
-                    showPage(
-                        createPage(name)
-                    );
+                    showStudio();
+
+                    break;
+
 
             }
 
@@ -564,19 +669,6 @@ function showFileMenu() {
 
 
 
-function showBlocksMenu() {
-
-    showPage(
-        createPage(
-            "Blocks",
-            "The block library will appear here."
-        )
-    );
-
-}
-
-
-
 function showHelp() {
 
     showPage(
@@ -594,4 +686,4 @@ function showHelp() {
 
 setupMenus();
 
-showWelcome();
+showProjects();
