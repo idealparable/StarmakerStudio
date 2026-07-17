@@ -256,3 +256,183 @@ Planned additions include:
 * Project builder
 * Build system
 * Exporting finished applications
+
+
+
+
+
+# Additional Setup: Managing the Cloudflare Worker Through GitHub
+
+The Starmaker Studio frontend is stored in GitHub and deployed through Cloudflare Pages.
+
+The backend database worker is also stored in the GitHub repository, but it is deployed separately through Cloudflare Workers.
+
+Current structure:
+
+```
+starmakerstudio/
+
+    index.html
+    style.css
+
+    js/
+        studio.js
+
+    worker/
+        dbworker.js
+        wrangler.toml
+
+    docs/
+        Setup.md
+        Architecture.md
+```
+
+---
+
+# Worker Source Backup
+
+The Cloudflare D1 database Worker source code is stored locally at:
+
+```
+worker/dbworker.js
+```
+
+This file should always be kept synchronized with the deployed Cloudflare Worker.
+
+After editing:
+
+1. Save changes in VS Code.
+2. Commit changes using GitHub Desktop.
+3. Push to GitHub.
+
+This keeps the Worker source backed up.
+
+---
+
+# Installing Wrangler
+
+Wrangler is Cloudflare's command-line deployment tool.
+
+Install Node.js first.
+
+Verify installation:
+
+```
+node -v
+npm -v
+```
+
+Install Wrangler:
+
+```
+npm install -g wrangler
+```
+
+Verify:
+
+```
+wrangler --version
+```
+
+---
+
+# Connecting Wrangler
+
+Log into Cloudflare:
+
+```
+wrangler login
+```
+
+Authorize the account in the browser window.
+
+The Worker folder contains:
+
+```
+worker/
+    dbworker.js
+    wrangler.toml
+```
+
+The `wrangler.toml` file connects the local Worker source to the Cloudflare Worker deployment.
+
+---
+
+# Deploying Worker Changes
+
+Editing the Worker source does not automatically update Cloudflare.
+
+The workflow is:
+
+```
+Edit dbworker.js
+
+↓
+
+Test locally if needed
+
+↓
+
+Commit and push to GitHub
+
+↓
+
+Run:
+
+wrangler deploy
+
+↓
+
+Cloudflare Worker updates
+```
+
+GitHub stores the code.
+
+Cloudflare runs the code.
+
+---
+
+# Current Deployment Separation
+
+Frontend:
+
+```
+index.html
+style.css
+js/studio.js
+```
+
+Deployment:
+
+```
+GitHub
+    ↓
+Cloudflare Pages
+```
+
+Backend:
+
+```
+worker/dbworker.js
+```
+
+Deployment:
+
+```
+GitHub
+    ↓
+Wrangler deploy
+    ↓
+Cloudflare Worker
+```
+
+---
+
+# Future Improvements
+
+Possible future upgrades:
+
+* Automatically deploy Workers after GitHub pushes using GitHub Actions.
+* Add authentication.
+* Add Cloudflare R2 storage for images, audio, and other large assets.
+* Add additional Workers for separate services.
