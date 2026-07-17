@@ -49,6 +49,10 @@ button {
     color: white;
 }
 
+.studio-button {
+    margin: 6px 0 0 6px;
+}
+
 
 button:hover {
 
@@ -131,9 +135,3 @@ button:hover {
 
 }
 
-
-.studio-button {
-
-    margin: 8px 0;
-
-}
