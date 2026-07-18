@@ -61,7 +61,54 @@ function createPage(title, text = "") {
 
 }
 
+function addBreadcrumb(page, crumbs) {
+
+    const breadcrumb = document.createElement("p");
+
+    breadcrumb.className = "breadcrumb";
+
+
+    crumbs.forEach((crumb, index) => {
+
+        const link = document.createElement("span");
+
+        link.textContent = crumb.name;
+
+
+        if (crumb.action) {
+
+            link.style.cursor = "pointer";
+
+            link.onclick = crumb.action;
+
+            link.style.textDecoration = "underline";
+
+        }
+
+
+        breadcrumb.appendChild(link);
+
+
+        if (index < crumbs.length - 1) {
+
+            const separator = document.createElement("span");
+
+            separator.textContent = " > ";
+
+            breadcrumb.appendChild(separator);
+
+        }
+
+    });
+
+
+    page.insertBefore(breadcrumb, page.firstChild);
+
+}
+
 function showStudio() {
+
+    setActiveMenu("Studio");
 
     const page = createPage(
         "Studio",
@@ -127,31 +174,69 @@ function showStudio() {
 
 }
 
+function setActiveMenu(name) {
+
+    const buttons = document.querySelectorAll("nav button");
+
+    buttons.forEach(button => {
+
+        if (button.textContent === name) {
+            button.classList.add("active-menu");
+        } else {
+            button.classList.remove("active-menu");
+        }
+
+    });
+
+}
+
 function showEditMenu() {
 
-    showPage(
-        createPage(
-            "Edit",
-            "Undo, redo, copy, paste, and editing tools will appear here."
-        )
+    const page = createPage(
+        "Edit",
+        "Undo, redo, copy, paste, and editing tools will appear here."
     );
+
+    addBreadcrumb(page, [
+        {
+            name: "Studio",
+            action: showStudio
+        },
+        {
+            name: "Edit"
+        }
+    ]);
+
+    showPage(page);
 
 }
 
 
 function showSettings() {
 
-    showPage(
-        createPage(
-            "Settings",
-            "Studio and user settings will appear here."
-        )
+    const page = createPage(
+        "Settings",
+        "Studio and user settings will appear here."
     );
+
+    addBreadcrumb(page, [
+        {
+            name: "Studio",
+            action: showStudio
+        },
+        {
+            name: "Settings"
+        }
+    ]);
+
+    showPage(page);
 
 }
 
 
 function showBlocksMenu() {
+
+    setActiveMenu("Blocks");
 
     showPage(
         createPage(
@@ -165,6 +250,8 @@ function showBlocksMenu() {
 
 function showMediaMenu() {
 
+    setActiveMenu("Media");
+
     showPage(
         createPage(
             "Media",
@@ -176,6 +263,8 @@ function showMediaMenu() {
 
 
 function showBuildMenu() {
+
+    setActiveMenu("Build");
 
     showPage(
         createPage(
@@ -190,27 +279,36 @@ function showBuildMenu() {
 
 function showProjects() {
 
-    const page = createPage(
-        "Projects",
-        "Create worlds, games, and more with intuitive visual coding blocks."
-    );
+    setActiveMenu("Project");
+
+    const page = document.createElement("section");
+
+    page.className = "studio-page";
 
 
-    const breadcrumb = document.createElement("p");
+    addBreadcrumb(page, [
+        {
+            name: "Studio",
+            action: showStudio
+        },
+        {
+            name: "Projects"
+        }
+    ]);
 
-    breadcrumb.textContent = "Studio > Projects";
+    const heading = document.createElement("h1");
 
-    breadcrumb.style.fontSize = "0.9em";
+    heading.textContent = "Projects";
 
-    breadcrumb.style.opacity = "0.7";
-
-    breadcrumb.onclick = showStudio;
-
-    breadcrumb.style.cursor = "pointer";
-
-    page.appendChild(breadcrumb);
+    page.appendChild(heading);
 
 
+    const intro = document.createElement("p");
+
+    intro.textContent =
+        "Create worlds, games, and more with intuitive visual coding blocks.";
+
+    page.appendChild(intro);
 
     const newButton = document.createElement("button");
 
@@ -658,12 +756,22 @@ function setupMenus() {
 
 function showFileMenu() {
 
-    showPage(
-        createPage(
-            "File",
-            "New, open, save, and project management."
-        )
+    const page = createPage(
+        "File",
+        "New, open, save, and project management."
     );
+
+    addBreadcrumb(page, [
+        {
+            name: "Studio",
+            action: showStudio
+        },
+        {
+            name: "File"
+        }
+    ]);
+
+    showPage(page);
 
 }
 
@@ -671,12 +779,22 @@ function showFileMenu() {
 
 function showHelp() {
 
-    showPage(
-        createPage(
-            "Help",
-            "Starmaker Studio help system."
-        )
+    const page = createPage(
+        "Help",
+        "Starmaker Studio help system."
     );
+
+    addBreadcrumb(page, [
+        {
+            name: "Studio",
+            action: showStudio
+        },
+        {
+            name: "Help"
+        }
+    ]);
+
+    showPage(page);
 
 }
 
