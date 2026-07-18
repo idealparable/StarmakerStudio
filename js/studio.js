@@ -3,6 +3,7 @@
 // ================================
 
 const PROJECT_API = "https://proud-pine-7dab.idealparable.workers.dev/";
+const BLOCK_API = "https://proud-pine-7dab.idealparable.workers.dev/blocks";
 
 const workspace = document.getElementById("workspace");
 

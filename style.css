@@ -198,3 +198,22 @@ button.active-menu:hover {
     background: #1d4ed8;
 
 }
+
+
+#blocks-table {
+
+    margin-top: 12px;
+
+    border-collapse: collapse;
+
+}
+
+
+#blocks-table td,
+#blocks-table th {
+
+    border: 1px solid #374151;
+
+    padding: 8px;
+
+}
