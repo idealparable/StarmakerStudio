@@ -61,6 +61,13 @@ button:hover {
 }
 
 
+button.active-menu:hover {
+
+    background: #1d4ed8;
+
+}
+
+
 .workspace {
 
     min-height: calc(100vh - 60px);
@@ -155,5 +162,39 @@ button:hover {
     position: sticky;
     top: 0;
     z-index: 1000;
+
+}
+
+
+
+.tab-bar {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    margin: 12px 0;
+
+    padding: 8px;
+
+    background: #182434;
+
+    border: 2px solid #111827;
+
+    border-radius: 8px;
+
+}
+
+
+.active-tab {
+
+    background: #2563eb;
+
+}
+
+
+.active-tab:hover {
+
+    background: #1d4ed8;
 
 }

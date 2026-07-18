@@ -113,6 +113,31 @@ function addBreadcrumb(page, crumbs) {
 
 }
 
+function createTabBar() {
+
+    const tabBar = document.createElement("nav");
+
+    tabBar.className = "tab-bar";
+
+    return tabBar;
+
+}
+
+function setActiveTab(tabBar, activeButton) {
+
+    const buttons = tabBar.querySelectorAll("button");
+
+    buttons.forEach(button => {
+
+        button.classList.remove("active-tab");
+
+    });
+
+
+    activeButton.classList.add("active-tab");
+
+}
+
 
 
 // ================================

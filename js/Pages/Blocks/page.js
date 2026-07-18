@@ -1,16 +1,68 @@
 function showBlocksPage() {
 
-    const page = createPage(
-        "Blocks",
-        "The block library will appear here."
-    );
+    const page = document.createElement("section");
 
-    addBreadcrumb(page, [
+    page.className = "studio-page";
+
+
+    const tabBar = createTabBar();
+
+    page.appendChild(tabBar);
+
+
+    const tabs = [
+
         {
-            name: "Blocks"
+            name: "Designer",
+            action: showBlocksDesignerPage
+        },
+
+        {
+            name: "Collections",
+            action: showBlocksCollectionsPage
+        },
+
+        {
+            name: "Library",
+            action: showBlocksLibraryPage
         }
-    ]);
+
+    ];
+
+
+    tabs.forEach(tab => {
+
+        const button = document.createElement("button");
+
+        button.textContent = tab.name;
+
+        button.onclick = function() {
+
+            setActiveTab(tabBar, button);
+
+            tab.action();
+
+        };
+
+        tabBar.appendChild(button);
+
+    });
+
+
+    const workspace = document.createElement("div");
+
+    workspace.id = "blocks-workspace";
+
+    page.appendChild(workspace);
+
+
+    const firstTab = tabBar.querySelector("button");
+
+    setActiveTab(tabBar, firstTab);
+
 
     showPage(page);
+
+    showBlocksDesignerPage();
 
 }
