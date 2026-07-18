@@ -32,22 +32,45 @@ export default {
       "Content-Type": "application/json"
     };
 
+    const url = new URL(request.url);
+
+    const path = url.pathname;
+
 
 
     if (request.method === "GET") {
 
 
-      const result = await env.DB
-        .prepare(
-          "SELECT * FROM Projects ORDER BY modified DESC"
-        )
-        .all();
+        if (path === "/blocks") {
 
 
-      return new Response(
-        JSON.stringify(result),
-        { headers }
-      );
+            const result = await env.DB
+                .prepare(
+                    "SELECT * FROM Blocks ORDER BY modified DESC"
+                )
+                .all();
+
+
+            return new Response(
+                JSON.stringify(result),
+                { headers }
+            );
+
+
+        }
+
+
+        const result = await env.DB
+            .prepare(
+                "SELECT * FROM Projects ORDER BY modified DESC"
+            )
+            .all();
+
+
+        return new Response(
+            JSON.stringify(result),
+            { headers }
+        );
 
     }
 
@@ -56,33 +79,83 @@ export default {
     if (request.method === "POST") {
 
 
-      const project = await request.json();
+        const data = await request.json();
 
 
-      const result = await env.DB
-        .prepare(
-          `
-          INSERT INTO Projects
-          (name, type, data, created, modified)
-          VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-          `
-        )
-        .bind(
-          project.name,
-          project.type,
-          project.data
-        )
-        .run();
+        if (path === "/blocks") {
 
 
+            const result = await env.DB
+                .prepare(
+                    `
+                    INSERT INTO Blocks
+                    (
+                        guin,
+                        name,
+                        description,
+                        text,
+                        code,
+                        path,
+                        filename,
+                        data,
+                        created,
+                        modified
+                    )
+                    VALUES
+                    (
+                        ?, ?, ?, ?, ?, ?, ?, ?,
+                        CURRENT_TIMESTAMP,
+                        CURRENT_TIMESTAMP
+                    )
+                    `
+                )
+                .bind(
+                    data.guin,
+                    data.name,
+                    data.description,
+                    data.text,
+                    data.code,
+                    data.path,
+                    data.filename,
+                    data.data
+                )
+                .run();
 
-      return new Response(
-        JSON.stringify({
-          success: true,
-          id: result.meta.last_row_id
-        }),
-        { headers }
-      );
+
+            return new Response(
+                JSON.stringify({
+                    success: true,
+                    id: result.meta.last_row_id
+                }),
+                { headers }
+            );
+
+        }
+
+
+        const result = await env.DB
+            .prepare(
+                `
+                INSERT INTO Projects
+                (name, type, data, created, modified)
+                VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                `
+            )
+            .bind(
+                data.name,
+                data.type,
+                data.data
+            )
+            .run();
+
+
+        return new Response(
+            JSON.stringify({
+                success: true,
+                id: result.meta.last_row_id
+            }),
+            { headers }
+        );
 
     }
 
