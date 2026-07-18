@@ -164,34 +164,79 @@ export default {
     if (request.method === "PUT") {
 
 
-      const project = await request.json();
+        const data = await request.json();
 
 
-      await env.DB
-        .prepare(
-          `
-          UPDATE Projects
-          SET name = ?,
-              type = ?,
-              modified = CURRENT_TIMESTAMP
-          WHERE id = ?
-          `
-        )
-        .bind(
-          project.name,
-          project.type,
-          project.id
-        )
-        .run();
+        if (path === "/blocks") {
+
+
+            await env.DB
+                .prepare(
+                    `
+                    UPDATE Blocks
+                    SET
+                        guin = ?,
+                        name = ?,
+                        description = ?,
+                        text = ?,
+                        code = ?,
+                        path = ?,
+                        filename = ?,
+                        data = ?,
+                        modified = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                    `
+                )
+                .bind(
+                    data.guin,
+                    data.name,
+                    data.description,
+                    data.text,
+                    data.code,
+                    data.path,
+                    data.filename,
+                    data.data,
+                    data.id
+                )
+                .run();
+
+
+            return new Response(
+                JSON.stringify({
+                    success: true
+                }),
+                { headers }
+            );
+
+        }
 
 
 
-      return new Response(
-        JSON.stringify({
-          success: true
-        }),
-        { headers }
-      );
+        await env.DB
+            .prepare(
+                `
+                UPDATE Projects
+                SET name = ?,
+                    type = ?,
+                    modified = CURRENT_TIMESTAMP
+                WHERE id = ?
+                `
+            )
+            .bind(
+                data.name,
+                data.type,
+                data.id
+            )
+            .run();
+
+
+
+        return new Response(
+            JSON.stringify({
+                success: true
+            }),
+            { headers }
+        );
 
     }
 
@@ -200,29 +245,56 @@ export default {
     if (request.method === "DELETE") {
 
 
-      const project = await request.json();
+        const data = await request.json();
 
 
-      await env.DB
-        .prepare(
-          `
-          DELETE FROM Projects
-          WHERE id = ?
-          `
-        )
-        .bind(
-          project.id
-        )
-        .run();
+        if (path === "/blocks") {
+
+
+            await env.DB
+                .prepare(
+                    `
+                    DELETE FROM Blocks
+                    WHERE id = ?
+                    `
+                )
+                .bind(
+                    data.id
+                )
+                .run();
+
+
+            return new Response(
+                JSON.stringify({
+                    success: true
+                }),
+                { headers }
+            );
+
+        }
 
 
 
-      return new Response(
-        JSON.stringify({
-          success: true
-        }),
-        { headers }
-      );
+        await env.DB
+            .prepare(
+                `
+                DELETE FROM Projects
+                WHERE id = ?
+                `
+            )
+            .bind(
+                data.id
+            )
+            .run();
+
+
+
+        return new Response(
+            JSON.stringify({
+                success: true
+            }),
+            { headers }
+        );
 
     }
 
