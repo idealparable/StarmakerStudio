@@ -37,13 +37,17 @@ function showBlocksLibraryPage() {
 
 
 
+    const tableWrapper = document.createElement("div");
+
+    tableWrapper.className = "library-table-wrapper";
+
     const table = document.createElement("table");
 
-    table.id = "blocks-table";
+    table.className = "library-table";
 
-    workspace.appendChild(table);
+    tableWrapper.appendChild(table);
 
-
+    workspace.appendChild(tableWrapper);
 
     loadBlocksInto(table);
 

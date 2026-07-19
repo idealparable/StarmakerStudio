@@ -217,3 +217,46 @@ button.active-menu:hover {
     padding: 8px;
 
 }
+
+
+.library-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+.library-table {
+
+    border-collapse: collapse;
+
+    min-width: max-content;
+
+}
+
+.library-table th,
+.library-table td {
+
+    border: 1px solid #374151;
+
+    padding: 8px 12px;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+}
+
+.library-table th {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #1f2937;
+
+    z-index: 2;
+
+}
