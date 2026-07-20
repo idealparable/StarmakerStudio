@@ -4,8 +4,13 @@ function showBlocksLibraryPage() {
 
     workspace.innerHTML = "";
 
+    const content = document.createElement("div");
 
-    addBreadcrumb(workspace, [
+    content.className = "page-content";
+
+    workspace.appendChild(content);
+
+    addBreadcrumb(content, [
         {
             name: "Blocks"
         },
@@ -19,23 +24,16 @@ function showBlocksLibraryPage() {
 
     heading.textContent = "Blocks: Library";
 
-    workspace.appendChild(heading);
+    content.appendChild(heading);
 
+    const help = document.createElement("p");
 
+    help.className = "page-help";
 
-    const newButton = document.createElement("button");
+    help.textContent =
+        "Click a cell to edit it. Press Enter or click elsewhere to save. Press Escape to cancel.";
 
-    newButton.textContent = "New Block";
-
-    newButton.onclick = function() {
-
-        alert("New Block coming soon!");
-
-    };
-
-    workspace.appendChild(newButton);
-
-
+    content.appendChild(help);
 
     const tableWrapper = document.createElement("div");
 
@@ -47,7 +45,41 @@ function showBlocksLibraryPage() {
 
     tableWrapper.appendChild(table);
 
-    workspace.appendChild(tableWrapper);
+    content.appendChild(tableWrapper);
+
+    const bottomBar = document.createElement("div");
+
+    bottomBar.className = "library-bottom-bar";
+
+    const status = document.createElement("span");
+
+    status.className = "library-status";
+
+    bottomBar.appendChild(status);
+
+    libraryStatus = status;
+
+
+    const controls = document.createElement("div");
+
+    controls.className = "library-controls";
+
+    bottomBar.appendChild(controls);
+
+    const newButton = document.createElement("button");
+
+    newButton.textContent = "New Block";
+
+    newButton.onclick = function () {
+
+        alert("New Block coming soon!");
+
+    };
+
+    controls.appendChild(newButton);
+
+
+    workspace.appendChild(bottomBar);
 
     loadBlocksInto(table);
 

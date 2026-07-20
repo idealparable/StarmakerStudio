@@ -72,6 +72,10 @@ button.active-menu:hover {
 
     min-height: calc(100vh - 60px);
 
+}
+
+.page-content {
+
     padding: 20px;
 
 }
@@ -258,5 +262,108 @@ button.active-menu:hover {
     background: #1f2937;
 
     z-index: 2;
+
+}
+
+
+.page-help {
+
+    margin-top: -8px;
+    margin-bottom: 16px;
+
+    font-size: 0.9em;
+
+    opacity: 0.7;
+
+}
+
+
+.library-table textarea {
+
+    resize: none;
+
+    overflow: auto;
+
+    box-sizing: border-box;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    font: inherit;
+}
+
+
+
+.library-table {
+
+    table-layout: fixed;
+
+    width: max-content;
+
+}
+
+
+.library-table th,
+.library-table td {
+
+    min-width: 20px;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.library-bottom-bar {
+
+    position: sticky;
+
+    bottom: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px;
+
+    margin-top: 12px;
+
+    background: #1f2937;
+
+    border-top: 1px solid #374151;
+
+    z-index: 5;
+
+}
+
+.library-bottom-spacer {
+
+    flex: 1;
+
+}
+
+.library-status {
+
+    min-width: 90px;
+
+    opacity: 0.8;
+
+}
+
+.library-controls {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-left: 30px;
 
 }
