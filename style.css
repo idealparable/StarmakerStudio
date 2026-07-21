@@ -19,6 +19,8 @@ body {
 }
 
 
+
+
 .logo {
     display: flex;
     align-items: center;
@@ -70,17 +72,13 @@ button.active-menu:hover {
 
 .workspace {
 
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 40px);
 
 }
 
 #blocks-workspace {
 
-    min-height: calc(100vh - 60px);
-
-    display: flex;
-
-    flex-direction: column;
+    min-height: calc(100vh - 40px);
 
 }
 
@@ -93,8 +91,6 @@ button.active-menu:hover {
 #blocks-workspace .page-content {
 
     padding: 20px;
-
-    flex: 1;
 
 }
 
@@ -241,13 +237,14 @@ button.active-menu:hover {
 }
 
 
+
 .library-table-wrapper {
 
     width: 100%;
 
-    overflow-x: auto;
+    overflow-x: visible;
 
-    overflow-y: visible;
+    outline: 3px solid red;
 
 }
 
@@ -256,9 +253,14 @@ button.active-menu:hover {
 
     border-collapse: collapse;
 
+    table-layout: fixed;
+
+    width: max-content;
+
     min-width: max-content;
 
 }
+
 
 .library-table th,
 .library-table td {
@@ -269,15 +271,24 @@ button.active-menu:hover {
 
     text-align: left;
 
+    min-width: 20px;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
     white-space: nowrap;
 
 }
 
-.library-table th {
+
+.library-table thead th {
 
     position: sticky;
 
-    top: 60;
+    top: 50px;
 
     background: #1f2937;
 
@@ -313,31 +324,6 @@ button.active-menu:hover {
     font: inherit;
 }
 
-
-
-.library-table {
-
-    table-layout: fixed;
-
-    width: max-content;
-
-}
-
-
-.library-table th,
-.library-table td {
-
-    min-width: 20px;
-
-    max-width: 220px;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-}
 
 
 .library-bottom-bar {

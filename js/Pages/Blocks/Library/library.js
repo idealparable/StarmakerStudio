@@ -90,7 +90,9 @@ async function loadBlocksInto(table) {
             table.innerHTML = "";
 
 
-            // Header row
+            // Table header
+
+            const thead = document.createElement("thead");
 
             const header = document.createElement("tr");
 
@@ -104,7 +106,16 @@ async function loadBlocksInto(table) {
 
             });
 
-            table.appendChild(header);
+            thead.appendChild(header);
+
+            table.appendChild(thead);
+
+
+            // Table body
+
+            const tbody = document.createElement("tbody");
+
+            table.appendChild(tbody);
 
 
             // Data rows
@@ -139,7 +150,7 @@ async function loadBlocksInto(table) {
 
                 block.row = row;
 
-                table.appendChild(row);
+                tbody.appendChild(row);
 
             });
 
