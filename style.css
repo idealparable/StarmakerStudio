@@ -74,9 +74,27 @@ button.active-menu:hover {
 
 }
 
+#blocks-workspace {
+
+    min-height: calc(100vh - 60px);
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
 .page-content {
 
     padding: 20px;
+
+}
+
+#blocks-workspace .page-content {
+
+    padding: 20px;
+
+    flex: 1;
 
 }
 
@@ -229,6 +247,8 @@ button.active-menu:hover {
 
     overflow-x: auto;
 
+    overflow-y: visible;
+
 }
 
 
@@ -257,7 +277,7 @@ button.active-menu:hover {
 
     position: sticky;
 
-    top: 0;
+    top: 60;
 
     background: #1f2937;
 

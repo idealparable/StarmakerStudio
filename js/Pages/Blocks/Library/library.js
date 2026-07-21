@@ -180,7 +180,7 @@ function editBlockCell(cell, block, column) {
 
     }
 
-    if (cell.querySelector("input")) {
+    if (cell.querySelector("textarea")) {
 
         return;
 
