@@ -180,10 +180,10 @@ async function loadBlocksInto(
 
         if (bodyCells.length && headerCells.length) {
 
-            // Measure the actual rendered width
-            // of each body column.
-
             const columnWidths = [];
+
+
+            // Measure each body column's complete width.
 
             bodyCells.forEach(bodyCell => {
 
@@ -194,13 +194,32 @@ async function loadBlocksInto(
             });
 
 
-            // Create a colgroup for the body table.
+            // Remove any existing colgroups.
+
+            const oldBodyColgroup =
+                table.querySelector("colgroup");
+
+            if (oldBodyColgroup) {
+
+                oldBodyColgroup.remove();
+
+            }
+
+
+            const oldHeaderColgroup =
+                headerTable.querySelector("colgroup");
+
+            if (oldHeaderColgroup) {
+
+                oldHeaderColgroup.remove();
+
+            }
+
+
+            // Create identical colgroups.
 
             const bodyColgroup =
                 document.createElement("colgroup");
-
-
-            // Create a colgroup for the header table.
 
             const headerColgroup =
                 document.createElement("colgroup");
@@ -229,9 +248,6 @@ async function loadBlocksInto(
             });
 
 
-            // Insert the colgroups as the first
-            // children of their respective tables.
-
             table.insertBefore(
                 bodyColgroup,
                 table.firstChild
@@ -241,6 +257,32 @@ async function loadBlocksInto(
                 headerColgroup,
                 headerTable.firstChild
             );
+
+
+            // Calculate the exact total width.
+
+            const totalWidth =
+                columnWidths.reduce(
+                    (total, width) => total + width,
+                    0
+                );
+
+
+            // Force both tables to have exactly
+            // the same total width.
+
+            table.style.width =
+                totalWidth + "px";
+
+            table.style.minWidth =
+                totalWidth + "px";
+
+
+            headerTable.style.width =
+                totalWidth + "px";
+
+            headerTable.style.minWidth =
+                totalWidth + "px";
 
         }
 
