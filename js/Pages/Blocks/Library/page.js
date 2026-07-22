@@ -35,18 +35,25 @@ function showBlocksLibraryPage() {
 
     content.appendChild(help);
 
-    const tableWrapper = document.createElement("div");
+        const tableWrapper = document.createElement("div");
 
     tableWrapper.className = "library-table-wrapper";
 
 
-    // Sticky header
+    // Sticky header scroll container
+
+    const headerScroll = document.createElement("div");
+
+    headerScroll.className = "library-header-scroll";
+
 
     const headerTable = document.createElement("table");
 
     headerTable.className = "library-table library-header-table";
 
-    tableWrapper.appendChild(headerTable);
+    headerScroll.appendChild(headerTable);
+
+    tableWrapper.appendChild(headerScroll);
 
 
     // Horizontally scrolling body
@@ -66,6 +73,9 @@ function showBlocksLibraryPage() {
     tableWrapper.appendChild(tableScroll);
 
     content.appendChild(tableWrapper);
+
+
+
     const bottomBar = document.createElement("div");
 
     bottomBar.className = "library-bottom-bar";
@@ -100,6 +110,11 @@ function showBlocksLibraryPage() {
 
     workspace.appendChild(bottomBar);
 
-    loadBlocksInto(table, headerTable, tableScroll);
+    loadBlocksInto(
+        table,
+        headerTable,
+        tableScroll,
+        headerScroll
+    );
 
 }

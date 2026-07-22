@@ -242,19 +242,18 @@ button.active-menu:hover {
 
     width: 100%;
 
-}
+    max-width: 100%;
 
-
-.library-table-scroll {
-
-    width: 100%;
-
-    overflow-x: auto;
+    min-width: 0;
 
 }
 
 
-.library-header-table {
+/* ================================
+   Sticky Header Scroll Window
+================================ */
+
+.library-header-scroll {
 
     position: sticky;
 
@@ -262,21 +261,49 @@ button.active-menu:hover {
 
     z-index: 2;
 
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
     background: #1f2937;
 
-    margin: 0;
+}
+
+/* Hide the header's horizontal scrollbar */
+
+.library-header-scroll {
+    scrollbar-width: none;
+}
+
+.library-header-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* ================================
+   Body Scroll Window
+================================ */
+
+.library-table-scroll {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: visible;
 
 }
 
 
-.library-header-table th {
-
-    background: #1f2937;
-
-}
-
-
-
+/* ================================
+   Both Tables
+================================ */
 
 .library-table {
 
@@ -285,6 +312,8 @@ button.active-menu:hover {
     table-layout: fixed;
 
     width: max-content;
+
+    min-width: max-content;
 
 }
 
@@ -311,9 +340,31 @@ button.active-menu:hover {
 }
 
 
-.library-table thead th {
+/* ================================
+   Header
+================================ */
+
+.library-header-table {
+
+    margin: 0;
+
+}
+
+
+.library-header-table th {
 
     background: #1f2937;
+
+}
+
+
+/* ================================
+   Body
+================================ */
+
+.library-body-table {
+
+    margin: 0;
 
 }
 
@@ -394,3 +445,4 @@ button.active-menu:hover {
     margin-left: 30px;
 
 }
+

@@ -75,7 +75,12 @@ let activeEditor = null;
 let libraryStatus = null;
 
 
-async function loadBlocksInto(table, headerTable, tableScroll) {
+async function loadBlocksInto(
+    table,
+    headerTable,
+    tableScroll,
+    headerScroll
+) {
 
     showLibraryStatus("Loading...", false);
 
@@ -175,13 +180,67 @@ async function loadBlocksInto(table, headerTable, tableScroll) {
 
         if (bodyCells.length && headerCells.length) {
 
-            bodyCells.forEach((bodyCell, index) => {
+            // Measure the actual rendered width
+            // of each body column.
 
-                const width = bodyCell.getBoundingClientRect().width;
+            const columnWidths = [];
 
-                headerCells[index].style.width = width + "px";
+            bodyCells.forEach(bodyCell => {
+
+                columnWidths.push(
+                    bodyCell.getBoundingClientRect().width
+                );
 
             });
+
+
+            // Create a colgroup for the body table.
+
+            const bodyColgroup =
+                document.createElement("colgroup");
+
+
+            // Create a colgroup for the header table.
+
+            const headerColgroup =
+                document.createElement("colgroup");
+
+
+            columnWidths.forEach(width => {
+
+                const bodyCol =
+                    document.createElement("col");
+
+                const headerCol =
+                    document.createElement("col");
+
+
+                bodyCol.style.width =
+                    width + "px";
+
+                headerCol.style.width =
+                    width + "px";
+
+
+                bodyColgroup.appendChild(bodyCol);
+
+                headerColgroup.appendChild(headerCol);
+
+            });
+
+
+            // Insert the colgroups as the first
+            // children of their respective tables.
+
+            table.insertBefore(
+                bodyColgroup,
+                table.firstChild
+            );
+
+            headerTable.insertBefore(
+                headerColgroup,
+                headerTable.firstChild
+            );
 
         }
 
@@ -190,13 +249,43 @@ async function loadBlocksInto(table, headerTable, tableScroll) {
         // Synchronize Horizontal Scrolling
         // ================================
 
+        let syncingScroll = false;
+
+
         tableScroll.onscroll = function () {
 
-            headerTable.style.transform =
-                "translateX(" + (-tableScroll.scrollLeft) + "px)";
+            if (syncingScroll) {
+
+                return;
+
+            }
+
+            syncingScroll = true;
+
+            headerScroll.scrollLeft =
+                tableScroll.scrollLeft;
+
+            syncingScroll = false;
 
         };
 
+
+        headerScroll.onscroll = function () {
+
+            if (syncingScroll) {
+
+                return;
+
+            }
+
+            syncingScroll = true;
+
+            tableScroll.scrollLeft =
+                headerScroll.scrollLeft;
+
+            syncingScroll = false;
+
+        };
 
     }
 
