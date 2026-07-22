@@ -18,9 +18,16 @@ const workspace = document.getElementById("workspace");
 
 let studioData = {
 
-    recentProjects: [],
+    currentProject: null,
 
-    currentProject: null
+    lastProjectId: null,
+
+    currentLocation: {
+        section: "Studio",
+        page: "Projects"
+    },
+
+    recentProjects: []
 
 };
 
@@ -165,17 +172,25 @@ function setActiveMenu(name) {
 
 function showProjectMenu() {
 
-    
-
     if (studioData.currentProject) {
 
         setActiveMenu("Project");
+
+        setStudioLocation(
+            "Project",
+            "Main"
+        );
 
         showProjectPage();
 
     } else {
 
         setActiveMenu("Studio");
+
+        setStudioLocation(
+            "Studio",
+            "Projects"
+        );
 
         showProjectsPage();
 
@@ -188,6 +203,11 @@ function showProjectsMenu() {
 
     setActiveMenu("Studio");
 
+    setStudioLocation(
+        "Studio",
+        "Projects"
+    );
+
     showProjectsPage();
 
 }
@@ -196,6 +216,11 @@ function showProjectsMenu() {
 function showBlocksMenu() {
 
     setActiveMenu("Blocks");
+
+    setStudioLocation(
+        "Blocks",
+        "Blocks"
+    );
 
     showBlocksPage();
 
@@ -206,6 +231,11 @@ function showMediaMenu() {
 
     setActiveMenu("Media");
 
+    setStudioLocation(
+        "Media",
+        "Media"
+    );
+
     showMediaPage();
 
 }
@@ -215,6 +245,11 @@ function showBuildMenu() {
 
     setActiveMenu("Build");
 
+    setStudioLocation(
+        "Build",
+        "Build"
+    );
+
     showBuildPage();
 
 }
@@ -223,6 +258,11 @@ function showBuildMenu() {
 function showStudioMenu() {
 
     setActiveMenu("Studio");
+
+    setStudioLocation(
+        "Studio",
+        "Studio"
+    );
 
     showStudioPage();
 
@@ -340,6 +380,8 @@ function setupMenus() {
 // ================================
 
 
+loadStudioState();
+
 setupMenus();
 
-showProjectsMenu();
+restoreStudioLocation();
