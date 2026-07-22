@@ -171,24 +171,58 @@ async function loadBlocksInto(
         // Synchronize Column Widths
         // ================================
 
-        const bodyCells =
-            table.querySelectorAll("tbody tr:first-child td");
+        const bodyRows =
+            table.querySelectorAll("tbody tr");
 
         const headerCells =
             headerTable.querySelectorAll("thead th");
 
 
-        if (bodyCells.length && headerCells.length) {
+        if (bodyRows.length && headerCells.length) {
 
             const columnWidths = [];
 
 
-            // Measure each body column's complete width.
+            // Measure each column using the widest
+            // body cell AND the header cell.
 
-            bodyCells.forEach(bodyCell => {
+            blockColumns.forEach((column, index) => {
+
+                let widestBodyWidth = 0;
+
+
+                // Find the widest body cell in this column.
+
+                bodyRows.forEach(row => {
+
+                    const bodyCell =
+                        row.cells[index];
+
+                    const width =
+                        bodyCell.getBoundingClientRect().width;
+
+                    if (width > widestBodyWidth) {
+
+                        widestBodyWidth = width;
+
+                    }
+
+                });
+
+
+                // Measure the header cell.
+
+                const headerWidth =
+                    headerCells[index].getBoundingClientRect().width;
+
+
+                // Use whichever is wider.
 
                 columnWidths.push(
-                    bodyCell.getBoundingClientRect().width
+                    Math.max(
+                        widestBodyWidth,
+                        headerWidth
+                    )
                 );
 
             });
