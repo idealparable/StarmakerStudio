@@ -75,84 +75,128 @@ let activeEditor = null;
 let libraryStatus = null;
 
 
-async function loadBlocksInto(table) {
+async function loadBlocksInto(table, headerTable, tableScroll) {
 
     showLibraryStatus("Loading...", false);
 
     try {
 
-                const response = await fetch(BLOCK_API);
+        const response = await fetch(BLOCK_API);
 
-                const data = await response.json();
+        const data = await response.json();
 
-                showLibraryStatus("Loaded.");
+        showLibraryStatus("Loaded.");
 
-            table.innerHTML = "";
+        table.innerHTML = "";
+        headerTable.innerHTML = "";
 
 
-            // Table header
+        // ================================
+        // Create Header Table
+        // ================================
 
-            const thead = document.createElement("thead");
+        const headerThead = document.createElement("thead");
 
-            const header = document.createElement("tr");
+        const headerRow = document.createElement("tr");
+
+        blockColumns.forEach(column => {
+
+            const cell = document.createElement("th");
+
+            cell.textContent = column.label;
+
+            headerRow.appendChild(cell);
+
+        });
+
+        headerThead.appendChild(headerRow);
+
+        headerTable.appendChild(headerThead);
+
+
+        // ================================
+        // Create Body Table
+        // ================================
+
+        const tbody = document.createElement("tbody");
+
+        table.appendChild(tbody);
+
+
+        // ================================
+        // Add Data Rows
+        // ================================
+
+        data.results.forEach(block => {
+
+            const row = document.createElement("tr");
+
+            row.cellsByColumn = {};
 
             blockColumns.forEach(column => {
 
-                const cell = document.createElement("th");
+                const cell = document.createElement("td");
 
-                cell.textContent = column.label;
+                cell.textContent = block[column.key] || "";
 
-                header.appendChild(cell);
+                if (column.editable) {
+
+                    cell.onclick = function () {
+
+                        editBlockCell(cell, block, column);
+
+                    };
+
+                }
+
+                row.appendChild(cell);
+
+                row.cellsByColumn[column.key] = cell;
+
+            });
+
+            block.row = row;
+
+            tbody.appendChild(row);
+
+        });
+
+
+        // ================================
+        // Synchronize Column Widths
+        // ================================
+
+        const bodyCells =
+            table.querySelectorAll("tbody tr:first-child td");
+
+        const headerCells =
+            headerTable.querySelectorAll("thead th");
+
+
+        if (bodyCells.length && headerCells.length) {
+
+            bodyCells.forEach((bodyCell, index) => {
+
+                const width = bodyCell.getBoundingClientRect().width;
+
+                headerCells[index].style.width = width + "px";
 
             });
 
-            thead.appendChild(header);
-
-            table.appendChild(thead);
+        }
 
 
-            // Table body
+        // ================================
+        // Synchronize Horizontal Scrolling
+        // ================================
 
-            const tbody = document.createElement("tbody");
+        tableScroll.onscroll = function () {
 
-            table.appendChild(tbody);
+            headerTable.style.transform =
+                "translateX(" + (-tableScroll.scrollLeft) + "px)";
 
+        };
 
-            // Data rows
-
-            data.results.forEach(block => {
-
-                const row = document.createElement("tr");
-
-                row.cellsByColumn = {};
-
-                blockColumns.forEach(column => {
-
-                    const cell = document.createElement("td");
-
-                    cell.textContent = block[column.key] || "";
-
-                    if (column.editable) {
-
-                        cell.onclick = function () {
-
-                            editBlockCell(cell, block, column);
-
-                        };
-
-                    }
-
-                    row.appendChild(cell);
-
-                    row.cellsByColumn[column.key] = cell;
-
-                });
-
-                block.row = row;
-
-                tbody.appendChild(row);
-
-            });
 
     }
 
@@ -161,6 +205,7 @@ async function loadBlocksInto(table) {
         showLibraryStatus("Load failed.");
 
     }
+
 }
 
 

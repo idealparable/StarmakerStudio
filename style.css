@@ -242,11 +242,40 @@ button.active-menu:hover {
 
     width: 100%;
 
-    overflow-x: visible;
+}
 
-    outline: 3px solid red;
+
+.library-table-scroll {
+
+    width: 100%;
+
+    overflow-x: auto;
 
 }
+
+
+.library-header-table {
+
+    position: sticky;
+
+    top: 50px;
+
+    z-index: 2;
+
+    background: #1f2937;
+
+    margin: 0;
+
+}
+
+
+.library-header-table th {
+
+    background: #1f2937;
+
+}
+
+
 
 
 .library-table {
@@ -256,8 +285,6 @@ button.active-menu:hover {
     table-layout: fixed;
 
     width: max-content;
-
-    min-width: max-content;
 
 }
 
@@ -286,13 +313,7 @@ button.active-menu:hover {
 
 .library-table thead th {
 
-    position: sticky;
-
-    top: 50px;
-
     background: #1f2937;
-
-    z-index: 2;
 
 }
 
